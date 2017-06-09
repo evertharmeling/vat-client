@@ -1,0 +1,40 @@
+{
+  "name": "evertharmeling/vat-client",
+  "type": "library",
+  "description": "Client library for the VIES/EU web service.",
+  "keywords": [ "vat", "api", "client", "open data", "vies", "controleerbtwnummer" ],
+  "homepage": "https://github.com/evertharmeling/vat-client",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Evert Harmeling",
+      "email": "evertharmeling@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.5.0",
+    "php-http/httplug": "^1.1",
+    "guzzlehttp/psr7": "^1.3"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^4.3.5|^5.0",
+    "php-http/mock-client": "^0.3.0",
+    "symfony/var-dumper": "^3.2"
+  },
+  "suggest": {
+    "php-http/guzzle6-adapter": "An HTTPlug adapter for the Guzzle 6 HTTP client"
+  },
+  "autoload": {
+    "psr-0": {
+      "VIESApi": "src/"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
+  },
+  "scripts": {
+    "test": "./vendor/phpunit/phpunit/phpunit --coverage-text"
+  }
+}
