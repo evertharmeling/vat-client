@@ -5,7 +5,7 @@ namespace VIESApi\Parser;
 use VIESApi\Model\TaxableObject;
 
 /**
- * @author Evert Harmeling <evert@freshheads.com>
+ * @author Evert Harmeling <evertharmeling@gmail.com>
  */
 class VATParser
 {

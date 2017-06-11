@@ -11,7 +11,7 @@ use VIESApi\Exception\TaxableObjectNotFoundException;
 use VIESApi\Parser\VATParser;
 
 /**
- * @author Evert Harmeling <evert@freshheads.com>
+ * @author Evert Harmeling <evertharmeling@gmail.com>
  */
 class Client
 {

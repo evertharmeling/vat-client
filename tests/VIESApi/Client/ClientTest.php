@@ -8,7 +8,7 @@ use VIESApi\Model\TaxableObject;
 use VIESApi\Parser\VATParser;
 
 /**
- * @author Evert Harmeling <evert@freshheads.com>
+ * @author Evert Harmeling <evertharmeling@gmail.com>
  */
 class ClientTest extends \PHPUnit_Framework_TestCase
 {

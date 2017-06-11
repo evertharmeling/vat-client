@@ -3,7 +3,7 @@
 namespace VIESApi\Exception;
 
 /**
- * @author Evert Harmeling <evert@freshheads.com>
+ * @author Evert Harmeling <evertharmeling@gmail.com>
  */
 interface VIESApiExceptionInterface
 {
