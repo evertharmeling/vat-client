@@ -1,0 +1,11 @@
+HTTP/1.1 200 OK
+Date: Sun, 11 Jun 2017 20:20:37 GMT
+Server: Apache/2.4.7
+X-Powered-By: PHP/5.5.9-1ubuntu4.21
+Cache-Control: no-cache, must-revalidate
+Expires: Mon, 26 Jul 1997 05:00:00 GMT
+Connection: close
+Transfer-Encoding: chunked
+Content-Type: application/json
+
+{"country_code":"NL","vat_number":"818918172B02","valid":false,"name":"","address":""}
