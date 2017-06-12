@@ -13,7 +13,7 @@ use VIESApi\Parser\VATParser;
 class ClientTest extends \PHPUnit_Framework_TestCase
 {
     const VAT_NUMBER            = 'NL818918172B01';
-    const VAT_NUMBER_INVALID    = 'NL818918172B02';
+    const VAT_NUMBER_INVALID    = 'NL818918172B99';
 
     public function testGetInfo()
     {

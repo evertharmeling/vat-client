@@ -26,3 +26,7 @@ catch (TaxableObjectNotFoundException $e) {
     // VAT number not found
 }
 ```
+
+## Roadmap
+
+- Formatter, add formatter who according to the regexes defined in the validator, formats the VAT number
