@@ -9,7 +9,7 @@ The `http://www.controleerbtwnummer.nl/` API relies on the [VIES/EU](http://ec.e
 
 ## Installation
 
-`composer install evertharmeling/vat-client`
+`composer require evertharmeling/vat-client`
 
 ## Usage
 
@@ -26,3 +26,7 @@ catch (TaxableObjectNotFoundException $e) {
     // VAT number not found
 }
 ```
+
+## Roadmap
+
+- Formatter, add formatter who according to the regexes defined in the validator, formats the VAT number
