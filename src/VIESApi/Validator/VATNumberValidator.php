@@ -25,6 +25,11 @@ class VATNumberValidator
         $this->client = $client;
     }
 
+    /**
+     * @param string $value
+     * @return bool
+     * @throws InvalidVATNumberException
+     */
     public function validate($value)
     {
         self::checkFormat($value);
@@ -34,6 +39,8 @@ class VATNumberValidator
 
             return true;
         } catch (VIESApiExceptionInterface $e) { }
+
+        return false;
     }
 
     /**

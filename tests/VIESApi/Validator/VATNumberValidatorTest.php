@@ -2,8 +2,8 @@
 
 namespace Tests\VIESApi\Validator;
 
+use PHPUnit\Framework\Assert;
 use VIESApi\Client\Client;
-use VIESApi\Formatter\VATNumberFormatter;
 use VIESApi\Model\Country;
 use VIESApi\Validator\VATNumberValidator;
 
@@ -54,7 +54,7 @@ class VATNumberValidatorTest extends \PHPUnit_Framework_TestCase
         }
 
         foreach ($values as $value) {
-            static::assertTrue($this->getValidator()->validate($value));
+            Assert::assertTrue($this->getValidator()->validate($value));
         }
     }
 
