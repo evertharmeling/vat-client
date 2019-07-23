@@ -3,51 +3,55 @@
 namespace Tests\VIESApi\Validator;
 
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use VIESApi\Client\Client;
+use VIESApi\Exception\InvalidVATNumberException;
 use VIESApi\Model\Country;
 use VIESApi\Validator\VATNumberValidator;
+
+use function is_array;
 
 /**
  * @link https://www.btw-nummer-controle.nl/Userfiles/images/Format%20btw-nummers%20EU(4).pdf
  *
  * @author Evert Harmeling <evert@freshheads.com>
  */
-class VATNumberValidatorTest extends \PHPUnit_Framework_TestCase
+class VATNumberValidatorTest extends TestCase
 {
-    const VALID_AT_VAT_NUMBER   = 'ATU123456789';
-    const VALID_BE_VAT_NUMBER   = 'BE0123456789';
-    const VALID_BG_VAT_NUMBER   = [ 'BG123456789', 'BG1234567890' ];
-    const VALID_CY_VAT_NUMBER   = 'CY12345678A';
-    const VALID_CZ_VAT_NUMBER   = [ 'CZ12345678', 'CZ123456789', 'CZ1234567890' ];
-    const VALID_DE_VAT_NUMBER   = 'DE123456789';
-    const VALID_DK_VAT_NUMBER   = 'DK12 34 56 78';
-    const VALID_EE_VAT_NUMBER   = 'EE123456789';
-    const VALID_EL_VAT_NUMBER   = 'EL123456789';
-    const VALID_ES_VAT_NUMBER   = [ 'ES123456789', 'ESA23456789', 'ESA2345678A', 'ES12345678A' ];
-    const VALID_FI_VAT_NUMBER   = 'FI12345678';
-    const VALID_FR_VAT_NUMBER   = [ 'FR12 123456789', 'FRA1 123456789', 'FR1A 123456789', 'FRAA 123456789' ];
-    const VALID_GB_VAT_NUMBER   = [ 'GB123 4567 89', 'GB123 4567 89 012', 'GBGD123', 'GBHA123' ];
-    const VALID_HR_VAT_NUMBER   = 'HR12345678901';
-    const VALID_HU_VAT_NUMBER   = 'HU12345678';
-    const VALID_IE_VAT_NUMBER   = [ 'IE1234567A', 'IE1A34567A', 'IE1+34567A', 'IE1*34567A' ];
-    const VALID_IT_VAT_NUMBER   = 'IT12345678901';
-    const VALID_LT_VAT_NUMBER   = [ 'LT123456789', 'LT123456789012' ];
-    const VALID_LU_VAT_NUMBER   = 'LU12345678';
-    const VALID_LV_VAT_NUMBER   = 'LV12345678901';
-    const VALID_MT_VAT_NUMBER   = 'MT12345678';
-    const VALID_NL_VAT_NUMBER   = 'NL123456789B01';
-    const VALID_PL_VAT_NUMBER   = 'PL1234567890';
-    const VALID_PT_VAT_NUMBER   = 'PT123456789';
-    const VALID_RO_VAT_NUMBER   = [ 'RO12', 'RO123', 'RO1234', 'RO12345', 'RO123456', 'RO1234567', 'RO12345678', 'RO123456789', 'RO1234567890' ];
-    const VALID_SE_VAT_NUMBER   = 'SE123456789012';
-    const VALID_SL_VAT_NUMBER   = 'SL12345678';
-    const VALID_SK_VAT_NUMBER   = 'SK1234567890';
-
+    private const VALID_AT_VAT_NUMBER   = 'ATU123456789';
+    private const VALID_BE_VAT_NUMBER   = 'BE0123456789';
+    private const VALID_BG_VAT_NUMBER   = [ 'BG123456789', 'BG1234567890' ];
+    private const VALID_CY_VAT_NUMBER   = 'CY12345678A';
+    private const VALID_CZ_VAT_NUMBER   = [ 'CZ12345678', 'CZ123456789', 'CZ1234567890' ];
+    private const VALID_DE_VAT_NUMBER   = 'DE123456789';
+    private const VALID_DK_VAT_NUMBER   = 'DK12 34 56 78';
+    private const VALID_EE_VAT_NUMBER   = 'EE123456789';
+    private const VALID_EL_VAT_NUMBER   = 'EL123456789';
+    private const VALID_ES_VAT_NUMBER   = [ 'ES123456789', 'ESA23456789', 'ESA2345678A', 'ES12345678A' ];
+    private const VALID_FI_VAT_NUMBER   = 'FI12345678';
+    private const VALID_FR_VAT_NUMBER   = [ 'FR12 123456789', 'FRA1 123456789', 'FR1A 123456789', 'FRAA 123456789' ];
+    private const VALID_GB_VAT_NUMBER   = [ 'GB123 4567 89', 'GB123 4567 89 012', 'GBGD123', 'GBHA123' ];
+    private const VALID_HR_VAT_NUMBER   = 'HR12345678901';
+    private const VALID_HU_VAT_NUMBER   = 'HU12345678';
+    private const VALID_IE_VAT_NUMBER   = [ 'IE1234567A', 'IE1A34567A', 'IE1+34567A', 'IE1*34567A' ];
+    private const VALID_IT_VAT_NUMBER   = 'IT12345678901';
+    private const VALID_LT_VAT_NUMBER   = [ 'LT123456789', 'LT123456789012' ];
+    private const VALID_LU_VAT_NUMBER   = 'LU12345678';
+    private const VALID_LV_VAT_NUMBER   = 'LV12345678901';
+    private const VALID_MT_VAT_NUMBER   = 'MT12345678';
+    private const VALID_NL_VAT_NUMBER   = 'NL123456789B01';
+    private const VALID_PL_VAT_NUMBER   = 'PL1234567890';
+    private const VALID_PT_VAT_NUMBER   = 'PT123456789';
+    private const VALID_RO_VAT_NUMBER   = [ 'RO12', 'RO123', 'RO1234', 'RO12345', 'RO123456', 'RO1234567', 'RO12345678', 'RO123456789', 'RO1234567890' ];
+    private const VALID_SE_VAT_NUMBER   = 'SE123456789012';
+    private const VALID_SL_VAT_NUMBER   = 'SL12345678';
+    private const VALID_SK_VAT_NUMBER   = 'SK1234567890';
 
     /**
      * @dataProvider validVATNumberProvider
      */
-    public function testValidVATNumbers($values)
+    public function testValidVATNumbers($values): void
     {
         if (!is_array($values)) {
             $values = [ $values ];
@@ -60,10 +64,11 @@ class VATNumberValidatorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider invalidVATNumberProvider
-     * @expectedException \VIESApi\Exception\InvalidVATNumberException
      */
-    public function testInvalidVATNumbers($values)
+    public function testInvalidVATNumbers($values): void
     {
+        $this->expectException(InvalidVATNumberException::class);
+
         if (!is_array($values)) {
             $values = [ $values ];
         }
@@ -73,13 +78,14 @@ class VATNumberValidatorTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function validVATNumberProvider()
+    public function validVATNumberProvider(): array
     {
         return [
             Country::CODE_AUSTRIA           => [ self::VALID_AT_VAT_NUMBER ],
             Country::CODE_BELGIUM           => [ self::VALID_BE_VAT_NUMBER ],
             Country::CODE_BULGARY           => [ self::VALID_BG_VAT_NUMBER ],
             Country::CODE_CZECH_REPUBLIC    => [ self::VALID_CZ_VAT_NUMBER ],
+            Country::CODE_CYPRUS            => [ self::VALID_CY_VAT_NUMBER ],
             Country::CODE_GERMANY           => [ self::VALID_DE_VAT_NUMBER ],
             Country::CODE_DENMARK           => [ self::VALID_DK_VAT_NUMBER ],
             Country::CODE_ESTONIA           => [ self::VALID_EE_VAT_NUMBER ],
@@ -106,7 +112,7 @@ class VATNumberValidatorTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function invalidVATNumberProvider()
+    public function invalidVATNumberProvider(): array
     {
         return [
             Country::CODE_AUSTRIA           => [ [ 'ATU12345678', 'ATU1234567890' ] ],
@@ -140,18 +146,15 @@ class VATNumberValidatorTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    /**
-     * @return VATNumberValidator
-     */
-    private function getValidator()
+    private function getValidator(): VATNumberValidator
     {
         return new VATNumberValidator($this->createClientMock());
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|Client
+     * @return MockObject|Client
      */
-    private function createClientMock()
+    private function createClientMock(): MockObject
     {
         return $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()

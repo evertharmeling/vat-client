@@ -3,61 +3,60 @@
 namespace Tests\VIESApi\Client;
 
 use GuzzleHttp\Psr7\Response;
+use Http\Mock\Client as MockClient;
+use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\TestCase;
 use VIESApi\Client\Client;
+use VIESApi\Exception\TaxableObjectNotFoundException;
 use VIESApi\Model\TaxableObject;
 use VIESApi\Parser\VATParser;
+
+use function file_get_contents;
+use function GuzzleHttp\Psr7\parse_response;
+use function sprintf;
+use function ucfirst;
 
 /**
  * @author Evert Harmeling <evertharmeling@gmail.com>
  */
-class ClientTest extends \PHPUnit_Framework_TestCase
+class ClientTest extends TestCase
 {
-    const VAT_NUMBER            = 'NL818918172B01';
-    const VAT_NUMBER_INVALID    = 'NL818918172B99';
+    private const VAT_NUMBER            = 'NL818918172B01';
+    private const VAT_NUMBER_INVALID    = 'NL818918172B99';
 
-    public function testGetInfo()
+    public function testGetInfo(): void
     {
         $client = $this->createClient($this->loadMockResponse('response.get_vat_number'));
         $taxableObject = $client->getInfo(self::VAT_NUMBER);
 
-        static::assertInstanceOf(TaxableObject::class, $taxableObject);
-        static::assertEquals(self::VAT_NUMBER, sprintf('%s%s', $taxableObject->getCountryCode(), $taxableObject->getVATNumber()));
-        static::assertNotNull($taxableObject->getName());
-        static::assertNotNull($taxableObject->getAddress());
+        Assert::assertInstanceOf(TaxableObject::class, $taxableObject);
+        Assert::assertEquals(self::VAT_NUMBER, sprintf('%s%s', $taxableObject->getCountryCode(), $taxableObject->getVATNumber()));
+        Assert::assertNotNull($taxableObject->getName());
+        Assert::assertNotNull($taxableObject->getAddress());
     }
 
-    /**
-     * @expectedException \VIESApi\Exception\TaxableObjectNotFoundException
-     */
-    public function testGetInvalidInfo()
+    public function testGetInvalidInfo(): void
     {
+        $this->expectException(TaxableObjectNotFoundException::class);
+
         $client = $this->createClient($this->loadMockResponse('response.invalid_vat_number'));
-        $taxableObject = $client->getInfo(self::VAT_NUMBER_INVALID);
+        $client->getInfo(self::VAT_NUMBER_INVALID);
     }
 
-    /**
-     * @param string $name
-     * @return Response
-     */
-    private function loadMockResponse($name)
+    private function loadMockResponse(string $name): Response
     {
-        list($dir, $name) = explode('.', $name);
+        [$dir, $name] = explode('.', $name);
 
-        return \GuzzleHttp\Psr7\parse_response(
+        return parse_response(
             file_get_contents(
                 sprintf('%s/../../Mock/%s/%s', __DIR__, ucfirst($dir), $name)
             )
         );
     }
 
-    /**
-    * @param Response $mockedResponse
-    *
-    * @return Client
-    */
-    private function createClient(Response $mockedResponse)
+    private function createClient(Response $mockedResponse): Client
     {
-        $httpClient = new \Http\Mock\Client();
+        $httpClient = new MockClient();
         $httpClient->addResponse($mockedResponse);
 
         return new Client($httpClient, new VATParser());
