@@ -24,7 +24,7 @@ llanguage: php
             -   php: 8.0
                 env: COVERAGE=true PHPUNIT_FLAGS="-v --coverage-text"
 
-            # Latest commit to master
+            # Latest commit to master.
             -   php: 8.0
                 env: STABILITY="dev"
 
